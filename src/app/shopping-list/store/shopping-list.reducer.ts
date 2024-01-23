@@ -1,4 +1,4 @@
-import { createReducer } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
