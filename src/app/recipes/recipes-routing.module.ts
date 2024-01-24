@@ -12,26 +12,26 @@ const routes: Routes = [
   {
     path: '',
     component: RecipesComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       { path: '', component: RecipeStartComponent },
       { path: 'new', component: RecipeEditComponent },
       {
         path: ':id',
         component: RecipeDetailComponent,
-        resolve: [RecipesResolverService]
+        resolve: [RecipesResolverService],
       },
       {
         path: ':id/edit',
         component: RecipeEditComponent,
-        resolve: [RecipesResolverService]
-      }
-    ]
-  }
+        resolve: [RecipesResolverService],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class RecipesRoutingModule {}
