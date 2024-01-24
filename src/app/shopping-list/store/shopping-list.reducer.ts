@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, Action } from '@ngrx/store';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
@@ -12,7 +12,7 @@ const initialState = {
   editIndex: -1,
 };
 
-export const shoppingListReducer = createReducer(
+export const _shoppingListReducer = createReducer(
   initialState,
   on(ShoppingListActions.addIngredient, (state, action) => ({
     ...state,
@@ -23,3 +23,7 @@ export const shoppingListReducer = createReducer(
     ingredients: state.ingredients.concat(...action.ingredients),
   }))
 );
+
+export function shoppingListReducer(state: State, action: Action) {
+  return _shoppingListReducer(state, action);
+}
