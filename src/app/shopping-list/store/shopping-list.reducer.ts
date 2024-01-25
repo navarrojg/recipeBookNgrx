@@ -29,6 +29,13 @@ export const _shoppingListReducer = createReducer(
       index === state.editIndex ? { ...action.ingredient } : ingredient
     ),
   })),
+  on(ShoppingListActions.deleteIngredient, (state) => ({
+    ...state,
+    editIndex: -1,
+    ingredients: state.ingredients.filter(
+      (_, index) => index !== state.editIndex
+    ),
+  })),
   on(ShoppingListActions.startEdit, (state, action) => ({
     ...state,
     editIndex: action.index,
