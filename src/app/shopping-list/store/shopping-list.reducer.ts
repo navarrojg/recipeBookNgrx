@@ -28,6 +28,14 @@ export const _shoppingListReducer = createReducer(
     ingredients: state.ingredients.map((ingredient, index) =>
       index === state.editIndex ? { ...action.ingredient } : ingredient
     ),
+  })),
+  on(ShoppingListActions.startEdit, (state, action) => ({
+    ...state,
+    editIndex: action.index,
+  })),
+  on(ShoppingListActions.stopEdit, (state) => ({
+    ...state,
+    editIndex: -1,
   }))
 );
 
