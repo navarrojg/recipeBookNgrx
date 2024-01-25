@@ -22,7 +22,7 @@ export const _shoppingListReducer = createReducer(
     ...state,
     ingredients: state.ingredients.concat(...action.ingredients),
   })),
-  on(ShoppingListActions.updateIngedient, (state, action) => ({
+  on(ShoppingListActions.updateIngredient, (state, action) => ({
     ...state,
     editIndex: -1,
     ingredients: state.ingredients.map((ingredient, index) =>
