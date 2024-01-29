@@ -7,3 +7,14 @@ export const loginStart = createAction(
     password: string;
   }>()
 );
+
+export const authenticateSuccess = createAction(
+  '[Auth] Authenticate Success',
+  props<{
+    email: string;
+    userId: string;
+    token: string;
+    expirationDate: Date;
+    redirect: boolean
+  }>()
+);
