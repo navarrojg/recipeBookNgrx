@@ -15,10 +15,16 @@ export const authenticateSuccess = createAction(
     userId: string;
     token: string;
     expirationDate: Date;
-    redirect: boolean
+    redirect: boolean;
   }>()
 );
 
-export const logout = createAction(
-  '[Auth] Logout'
+export const logout = createAction('[Auth] Logout');
+
+export const signupStart = createAction(
+  '[Auth] Signup Start',
+  props<{
+    email: string;
+    password: string;
+  }>()
 );
