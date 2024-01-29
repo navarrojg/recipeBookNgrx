@@ -18,3 +18,7 @@ export const authenticateSuccess = createAction(
     redirect: boolean
   }>()
 );
+
+export const logout = createAction(
+  '[Auth] Logout'
+);
