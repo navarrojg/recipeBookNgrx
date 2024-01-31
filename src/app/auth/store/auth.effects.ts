@@ -22,9 +22,10 @@ export interface AuthResponseData {
 
 @Injectable()
 export class AuthEffects {
+  authLogin$ = createEffect(() =>
+    this.actions$.pipe(ofType(AuthActions.loginStart))
+  );
 
-
-    
   constructor(
     private actions$: Actions,
     private http: HttpClient,
