@@ -23,7 +23,37 @@ export interface AuthResponseData {
 @Injectable()
 export class AuthEffects {
   authLogin$ = createEffect(() =>
-    this.actions$.pipe(ofType(AuthActions.loginStart))
+    this.actions$.pipe(
+      ofType(AuthActions.loginStart),
+      switchMap((action) => {
+        return this.http
+          .post<AuthResponseData>(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+              environment.firebaseAPIKey,
+            {
+              email: action.email,
+              password: action.password,
+              returnSecureToken: true,
+            }
+          )
+          .pipe(
+            tap((resData) => {
+              this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+            }),
+            map((resData) => {
+              return handleAuthentication(
+                +resData.expiresIn,
+                resData.email,
+                resData.localId,
+                resData.idToken
+              );
+            }),
+            catchError((errorRes) => {
+              return handleError(errorRes);
+            })
+          );
+      })
+    )
   );
 
   constructor(

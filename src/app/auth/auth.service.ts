@@ -123,6 +123,8 @@ export class AuthService {
     }, expirationDuration);
   }
 
+  setLogoutTimer(expirationDuration: number) {}
+
   private handleAuthentication(
     email: string,
     userId: string,
