@@ -29,13 +29,19 @@ const handleAuthentication = (
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
   const user = new User(email, userId, token, expirationDate);
   localStorage.setItem('userData', JSON.stringify(user));
-  return AuthActions.authenticateSuccess({ email, userId, token, expirationDate, redirect: true });
+  return AuthActions.authenticateSuccess({
+    email,
+    userId,
+    token,
+    expirationDate,
+    redirect: true,
+  });
 };
 
 const handleError = (errorRes: any) => {
   let errorMessage = 'An unknown error occurred!';
   if (!errorRes.error || !errorRes.error.error) {
-    return of(AuthActions.authenticateFail({errorMessage}));
+    return of(AuthActions.authenticateFail({ errorMessage }));
   }
   switch (errorRes.error.error.message) {
     case 'EMAIL_EXISTS':
@@ -48,7 +54,7 @@ const handleError = (errorRes: any) => {
       errorMessage = 'This password is not correct.';
       break;
   }
-  return of(AuthActions.authenticateFail({errorMessage}));
+  return of(AuthActions.authenticateFail({ errorMessage }));
 };
 
 @Injectable()
@@ -56,6 +62,40 @@ export class AuthEffects {
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginStart),
+      switchMap((action) => {
+        return this.http
+          .post<AuthResponseData>(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+              environment.firebaseAPIKey,
+            {
+              email: action.email,
+              password: action.password,
+              returnSecureToken: true,
+            }
+          )
+          .pipe(
+            tap((resData) => {
+              this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+            }),
+            map((resData) => {
+              return handleAuthentication(
+                +resData.expiresIn,
+                resData.email,
+                resData.localId,
+                resData.idToken
+              );
+            }),
+            catchError((errorRes) => {
+              return handleError(errorRes);
+            })
+          );
+      })
+    )
+  );
+
+  authSignup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signupStart),
       switchMap((action) => {
         return this.http
           .post<AuthResponseData>(
