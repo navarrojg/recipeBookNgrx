@@ -3,6 +3,7 @@ import {
   ComponentFactoryResolver,
   ViewChild,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +14,7 @@ import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { Store } from '@ngrx/store';
 import * as AuthActions from './store/auth.actions';
+import * as fromApp from '../store/app.reducer';
 
 @Component({
   selector: 'app-auth',
@@ -26,13 +28,22 @@ export class AuthComponent implements OnDestroy {
   alertHost: PlaceholderDirective;
 
   private closeSub: Subscription;
+  private storeSub: Subscription;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private store: Store
+    private store: Store<fromApp.AppState>
   ) {}
+
+  ngOnInit() {
+    this.storeSub = this.store.select('auth').subscribe((authState) => {
+      this.isLoading = authState.loading;
+      this.error = authState.authError;
+      if (this.error) {
+        this.showErrorAlert(this.error);
+      }
+    });
+  }
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
