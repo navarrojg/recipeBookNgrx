@@ -21,10 +21,12 @@ const _authReducer = createReducer(
     authError: null,
     loading: true,
   })),
+
   on(AuthActions.logout, (state) => ({
     ...state,
     user: null,
   })),
+  
   on(AuthActions.authenticateSuccess, (state, action) => ({
     ...state,
     authError: null,
@@ -36,7 +38,7 @@ const _authReducer = createReducer(
       action.expirationDate
     ),
   })),
-  
+
   on(AuthActions.authenticateFail, (state, action) => ({
     ...state,
     user: null,
