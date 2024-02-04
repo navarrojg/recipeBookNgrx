@@ -73,6 +73,9 @@ export class AuthComponent implements OnDestroy {
     if (this.closeSub) {
       this.closeSub.unsubscribe();
     }
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 
   private showErrorAlert(message: string) {
