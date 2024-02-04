@@ -35,6 +35,12 @@ const _authReducer = createReducer(
       action.token,
       action.expirationDate
     ),
+  })),
+  on(AuthActions.authenticateFail, (state, action) => ({
+    ...state,
+    user: null,
+    authError: action.errorMessage,
+    loading: false,
   }))
 );
 
