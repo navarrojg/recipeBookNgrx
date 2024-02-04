@@ -29,10 +29,11 @@ export const signupStart = createAction(
   }>()
 );
 
-
 export const authenticateFail = createAction(
   '[Auth] Authenticate Fail',
   props<{
-    errorMessage: string
+    errorMessage: string;
   }>()
 );
+
+export const clearError = createAction('[Auth] Clear Error');
