@@ -9,6 +9,8 @@ import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './auth/store/auth.effects';
+import * as fromAuth from './auth/store/auth.reducer';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -18,8 +20,10 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     SharedModule,
     CoreModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({ auth: fromAuth.authReducer }),
+    EffectsModule.forRoot([AuthEffects]),
+    SharedModule,
+    CoreModule,
   ],
   bootstrap: [AppComponent],
   // providers: [LoggingService]
