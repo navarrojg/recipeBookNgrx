@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -24,6 +26,7 @@ import * as fromAuth from './auth/store/auth.reducer';
     EffectsModule.forRoot([AuthEffects]),
     SharedModule,
     CoreModule,
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   bootstrap: [AppComponent],
   // providers: [LoggingService]
