@@ -9,3 +9,5 @@ export const addRecipe = createAction(
 );
 
 export const fetchRecipes = createAction('[Recipe] Fetch Recipes');
+
+export const storeRecipes = createAction('[Recipe] Store Recipes');
