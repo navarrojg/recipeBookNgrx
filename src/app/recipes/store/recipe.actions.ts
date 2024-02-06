@@ -7,3 +7,5 @@ export const addRecipe = createAction(
     recipe: Recipe;
   }>()
 );
+
+export const fetchRecipes = createAction('[Recipe] Fetch Recipes');
