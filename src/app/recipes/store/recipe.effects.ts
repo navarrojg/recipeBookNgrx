@@ -10,9 +10,28 @@ import * as fromApp from '../../store/app.reducer';
 
 @Injectable()
 export class RecipeEffects {
+  fetchRecipes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RecipesActions.fetchRecipes),
+      switchMap(() => {
+        return this.http.get<Recipe[]>(
+          'https://recipebook-70add-default-rtdb.firebaseio.com/recipes.json'
+        );
+      }),
+      map((recipes) => {
+        return recipes.map((recipe) => {
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients : [],
+          };
+        });
+      }),
+      map((recipes) => {
+        return RecipesActions.setRecipes({ recipes });
+      })
+    )
+  );
 
-
-    
   constructor(
     private actions$: Actions,
     private http: HttpClient,
