@@ -15,6 +15,20 @@ const _recipeReducer = createReducer(
   on(RecipesActions.setRecipes, (state, action) => ({
     ...state,
     recipes: [...action.recipes],
+  })),
+  on(RecipesActions.addRecipe, (state, action) => ({
+    ...state,
+    recipes: state.recipes.concat({ ...action.recipe }),
+  })),
+  on(RecipesActions.updateRecipe, (state, action) => ({
+    ...state,
+    recipes: state.recipes.map((recipe, index) =>
+      index === action.index ? { ...action.recipe } : recipe
+    ),
+  })),
+  on(RecipesActions.deleteRecipe, (state, action) => ({
+    ...state,
+    recipes: state.recipes.filter((_, index) => index !== action.index),
   }))
 );
 
