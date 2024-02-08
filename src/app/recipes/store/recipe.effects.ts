@@ -39,7 +39,7 @@ export class RecipeEffects {
         withLatestFrom(this.store.select('recipes')),
         switchMap(([actionData, recipesState]) => {
           return this.http.put(
-            'https://xxxxxxxxxx.firebaseio.com/recipes.json',
+            'https://recipebook-70add-default-rtdb.firebaseio.com/recipes.json',
             recipesState.recipes
           );
         })
@@ -47,7 +47,6 @@ export class RecipeEffects {
     { dispatch: false }
   );
 
-  
   constructor(
     private actions$: Actions,
     private http: HttpClient,
