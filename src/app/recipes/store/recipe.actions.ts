@@ -18,3 +18,18 @@ export const setRecipes = createAction(
     recipes: Recipe[];
   }>()
 );
+
+export const updateRecipe = createAction(
+  '[Recipe] Update Recipe',
+  props<{
+    index: number;
+    recipe: Recipe;
+  }>()
+);
+
+export const deleteRecipe = createAction(
+  '[Recipe] Delete Recipe',
+  props<{
+    index: number;
+  }>()
+);
