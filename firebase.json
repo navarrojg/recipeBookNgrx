@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/ngrx-00-starting-project",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

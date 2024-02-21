@@ -5,7 +5,6 @@ import * as fromApp from '../../store/app.reducer';
 import * as ShoppingListActions from '../store/shopping-list.actions';
 
 import { Ingredient } from '../../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -17,40 +16,26 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('f', { static: false }) slForm: NgForm;
   subscription: Subscription;
   editMode = false;
-  editedItemIndex: number;
   editedItem: Ingredient;
 
-  constructor(
-    private slService: ShoppingListService,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.store.select('shoppingList').subscribe((stateData) => {
-      const index = stateData.editIndex;
-      if (index > -1) {
-        this.editMode = true;
-        this.editedItem = stateData.ingredients[index];
-        this.slForm.setValue({
-          name: this.editedItem.name,
-          amount: this.editedItem.amount,
-        });
-      } else {
-        this.editMode = false;
-      }
-    });
-    
-    // this.subscription = this.slService.startedEditing.subscribe(
-    //   (index: number) => {
-    //     this.editedItemIndex = index;
-    //     this.editMode = true;
-    //     this.editedItem = this.slService.getIngredient(index);
-    //     this.slForm.setValue({
-    //       name: this.editedItem.name,
-    //       amount: this.editedItem.amount,
-    //     });
-    //   }
-    // );
+    this.subscription = this.store
+      .select('shoppingList')
+      .subscribe((stateData) => {
+        const index = stateData.editIndex;
+        if (index > -1) {
+          this.editMode = true;
+          this.editedItem = stateData.ingredients[index];
+          this.slForm.setValue({
+            name: this.editedItem.name,
+            amount: this.editedItem.amount,
+          });
+        } else {
+          this.editMode = false;
+        }
+      });
   }
 
   onSubmit(form: NgForm) {
